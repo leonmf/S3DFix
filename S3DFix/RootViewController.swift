@@ -6,6 +6,7 @@
 //  Copyright © 2015 LEON GROSSMAN. All rights reserved.
 //
 
+//This is currently very, very slow - 2015-10-21
 import Cocoa
 
 class RootViewController: NSViewController {
