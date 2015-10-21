@@ -7,17 +7,23 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		352C6B171BD5DE2F00513092 /* StreamReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 352C6B161BD5DE2F00513092 /* StreamReader.swift */; settings = {ASSET_TAGS = (); }; };
 		35BB04981BD28AB0003F3BAB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35BB04971BD28AB0003F3BAB /* AppDelegate.swift */; };
 		35BB049A1BD28AB0003F3BAB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 35BB04991BD28AB0003F3BAB /* Assets.xcassets */; };
 		35BB049D1BD28AB0003F3BAB /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 35BB049B1BD28AB0003F3BAB /* MainMenu.xib */; };
+		35BB04A51BD28B28003F3BAB /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35BB04A41BD28B28003F3BAB /* RootViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		35BB04A71BD28C1B003F3BAB /* ProcessFileModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35BB04A61BD28C1B003F3BAB /* ProcessFileModel.swift */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		352C6B161BD5DE2F00513092 /* StreamReader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StreamReader.swift; sourceTree = "<group>"; };
 		35BB04941BD28AB0003F3BAB /* S3DFix.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = S3DFix.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		35BB04971BD28AB0003F3BAB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		35BB04991BD28AB0003F3BAB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		35BB049C1BD28AB0003F3BAB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		35BB049E1BD28AB0003F3BAB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		35BB04A41BD28B28003F3BAB /* RootViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
+		35BB04A61BD28C1B003F3BAB /* ProcessFileModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProcessFileModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,6 +59,9 @@
 				35BB04971BD28AB0003F3BAB /* AppDelegate.swift */,
 				35BB04991BD28AB0003F3BAB /* Assets.xcassets */,
 				35BB049B1BD28AB0003F3BAB /* MainMenu.xib */,
+				35BB04A61BD28C1B003F3BAB /* ProcessFileModel.swift */,
+				352C6B161BD5DE2F00513092 /* StreamReader.swift */,
+				35BB04A41BD28B28003F3BAB /* RootViewController.swift */,
 				35BB049E1BD28AB0003F3BAB /* Info.plist */,
 			);
 			path = S3DFix;
@@ -127,7 +136,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				352C6B171BD5DE2F00513092 /* StreamReader.swift in Sources */,
+				35BB04A51BD28B28003F3BAB /* RootViewController.swift in Sources */,
 				35BB04981BD28AB0003F3BAB /* AppDelegate.swift in Sources */,
+				35BB04A71BD28C1B003F3BAB /* ProcessFileModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -229,7 +241,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_USE_OPTIMIZATION_PROFILE = YES;
 				COMBINE_HIDPI_IMAGES = YES;
+				GCC_OPTIMIZATION_LEVEL = fast;
 				INFOPLIST_FILE = S3DFix/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "Monkey-.S3DFix";
@@ -241,7 +255,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_USE_OPTIMIZATION_PROFILE = YES;
 				COMBINE_HIDPI_IMAGES = YES;
+				GCC_OPTIMIZATION_LEVEL = fast;
 				INFOPLIST_FILE = S3DFix/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "Monkey-.S3DFix";
@@ -268,6 +284,7 @@
 				35BB04A31BD28AB0003F3BAB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
