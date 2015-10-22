@@ -672,7 +672,7 @@
         <viewController id="RbK-2S-DXV" customClass="RootViewController" customModule="S3DFix" customModuleProvider="target">
             <connections>
                 <outlet property="labelStatus" destination="ijZ-vs-3LW" id="48R-FL-Qh0"/>
-                <outlet property="processFile" destination="cZN-eJ-17Z" id="aM5-fh-qfP"/>
+                <outlet property="processFile" destination="cZN-eJ-17Z" id="esU-bQ-Xov"/>
                 <outlet property="txtERes" destination="bkD-eg-IKY" id="kUA-iE-6YG"/>
                 <outlet property="txtXYRes" destination="jlf-vt-d7o" id="Jjr-No-Zcs"/>
                 <outlet property="view" destination="EiT-Mj-1SZ" id="C58-sk-svZ"/>
@@ -681,14 +681,14 @@
         <window title="S3DFix" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" animationBehavior="default" id="QvC-M9-y7g">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES"/>
-            <rect key="contentRect" x="738" y="390" width="480" height="121"/>
+            <rect key="contentRect" x="738" y="390" width="480" height="183"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1200"/>
             <view key="contentView" id="EiT-Mj-1SZ">
-                <rect key="frame" x="0.0" y="0.0" width="480" height="121"/>
+                <rect key="frame" x="0.0" y="0.0" width="480" height="183"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ijZ-vs-3LW">
-                        <rect key="frame" x="18" y="20" width="444" height="17"/>
+                        <rect key="frame" x="18" y="49" width="444" height="50"/>
                         <animations/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Press button to process a gcode file." id="Gci-4M-Xdn">
                             <font key="font" metaFont="system"/>
@@ -696,19 +696,8 @@
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
-                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cZN-eJ-17Z">
-                        <rect key="frame" x="353" y="11" width="113" height="32"/>
-                        <animations/>
-                        <buttonCell key="cell" type="push" title="Process File" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="rCs-Ar-Tcf">
-                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="system"/>
-                        </buttonCell>
-                        <connections>
-                            <action selector="processFile:" target="RbK-2S-DXV" id="juv-za-hpq"/>
-                        </connections>
-                    </button>
                     <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jlf-vt-d7o">
-                        <rect key="frame" x="317" y="79" width="143" height="22"/>
+                        <rect key="frame" x="317" y="141" width="143" height="22"/>
                         <animations/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="heV-fu-X4B">
                             <numberFormatter key="formatter" formatterBehavior="default10_4" numberStyle="decimal" minimumIntegerDigits="1" maximumIntegerDigits="2000000000" maximumFractionDigits="3" id="Ugr-DQ-kgo"/>
@@ -718,7 +707,7 @@
                         </textFieldCell>
                     </textField>
                     <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bkD-eg-IKY">
-                        <rect key="frame" x="317" y="47" width="143" height="22"/>
+                        <rect key="frame" x="317" y="109" width="143" height="22"/>
                         <animations/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="bZv-Ek-EdM">
                             <numberFormatter key="formatter" formatterBehavior="default10_4" numberStyle="decimal" minimumIntegerDigits="1" maximumIntegerDigits="2000000000" maximumFractionDigits="3" id="lJc-Jy-no8"/>
@@ -728,7 +717,7 @@
                         </textFieldCell>
                     </textField>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XuL-ka-tJS">
-                        <rect key="frame" x="160" y="82" width="151" height="17"/>
+                        <rect key="frame" x="160" y="144" width="151" height="17"/>
                         <animations/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="XY Minimum Resolution:" id="POJ-3X-UaC">
                             <font key="font" metaFont="system"/>
@@ -737,7 +726,7 @@
                         </textFieldCell>
                     </textField>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pwI-jU-de8">
-                        <rect key="frame" x="125" y="50" width="186" height="17"/>
+                        <rect key="frame" x="125" y="112" width="186" height="17"/>
                         <animations/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Extruder Minimum Resolution:" id="OSz-TY-5g7">
                             <font key="font" metaFont="system"/>
@@ -745,10 +734,21 @@
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
+                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cZN-eJ-17Z">
+                        <rect key="frame" x="353" y="13" width="113" height="32"/>
+                        <animations/>
+                        <buttonCell key="cell" type="push" title="Process File" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="rCs-Ar-Tcf">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="processFile:" target="RbK-2S-DXV" id="juv-za-hpq"/>
+                        </connections>
+                    </button>
                 </subviews>
                 <animations/>
             </view>
-            <point key="canvasLocation" x="323" y="451.5"/>
+            <point key="canvasLocation" x="323" y="482.5"/>
         </window>
     </objects>
 </document>

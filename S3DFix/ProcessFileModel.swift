@@ -232,11 +232,15 @@ class ProcessFileModel {
 
 
         //Write the file to disk and return our results
+        var retVal = "Processing failed!"
         if (writeFile(outPath, fileData: fileData)) {
-            return "Finished: \(duplicateCount) / \(totalCount) Lines Removed"
-        } else {
-            return "Processing failed"
+            retVal = "Finished: \(duplicateCount) / \(totalCount) Lines Removed"
         }
+        //empty variable?
+        fileData = ""
+        return retVal
+        
+        
         
     }
     
