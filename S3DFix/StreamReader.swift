@@ -7,7 +7,8 @@
 //
 
 import Foundation
-
+//downloaded from Here:
+//http://stackoverflow.com/questions/24581517/read-a-file-url-line-by-line-in-swift
 class StreamReader  {
     
     let encoding : UInt

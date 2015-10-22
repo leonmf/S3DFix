@@ -44,9 +44,15 @@ class ProcessFileModel {
     
 
     func startsWith(s:String, prefix:String) -> Bool {
-        var result:Bool
+        var result:Bool = false
+        
+        //if s.characters.count >= prefix.characters.count {
+        //    let strSub = s.substringWithRange(s.startIndex.advancedBy(0)...s.startIndex.advancedBy(prefix.characters.count-1))
+        //    result = (strSub == prefix)
+        //}
         
         result = (s.characters.count >= prefix.characters.count && s.hasPrefix(prefix))
+
         return result
     
     }
@@ -87,10 +93,8 @@ class ProcessFileModel {
         let i = s.characters.indexOf(c)
         //If we found the search character, extract the float value
         if i != nil {
+            
             //We're basically searching for the first non-numeric character.
-            //For S3D code, we could just search for a space but I'm handling
-            //the condition where X1.234Y1.234 happens.
-            //let k = "01234567890."
             //The index found by the indexof is not actually an integer.
             //This is probably because of double byte character sets.
             //We have to convert the string index into an actual index.
@@ -99,10 +103,11 @@ class ProcessFileModel {
             index += 1
             //Find the first character not part of a number
             //let endIndex = find_first_not_of(index, searchString: s, keyString: k)
+            //Running this way takes 86% of the time it takes to do the proper way
             let endIndex = getEndIdx(index, searchString: s)
+            
+            //let endIndex = find_first_not_of(index, searchString: s, keyString: "01234567890.")
             let strValue = s.substringWithRange(s.startIndex.advancedBy(index)..<s.startIndex.advancedBy((endIndex)))
-            
-            
             
             if (Float(strValue) != nil) {
                 let val = Float(strValue)!
@@ -139,6 +144,7 @@ class ProcessFileModel {
     
     
     func isRedundant(a:String, b:String) -> Bool {
+        
         //If we don't have a motion line, return.
         if (!startsWith(a, prefix:"G1") || !startsWith(b, prefix:"G1")) {
             return false;
@@ -154,6 +160,7 @@ class ProcessFileModel {
         if (!bE.found) {return false}
         
         //Check to see if extrusion is greater than the threshold or not.  If greater return false.
+        
         if (fabsf(aE.result - bE.result) < extrusionThreshold) {
             
             // this distance check is probably unnecessary as travel moves are automatically filtered out (they don't have an E parameter)
@@ -164,7 +171,8 @@ class ProcessFileModel {
             return (dist < resolutionThreshold)
             
         }
-        
+
+
         return false
         
     }
@@ -200,12 +208,12 @@ class ProcessFileModel {
               
                 
                 // don't filter relative motion gcode
-                
                 if (startsWith(line,prefix:"G91")) {
                     relativeMotion = true;
                 } else if (startsWith(line,prefix:"G90")) {
                     relativeMotion = false;
                 }
+
 
                 
                 // ignore redundant gcode
@@ -225,7 +233,7 @@ class ProcessFileModel {
 
         //Write the file to disk and return our results
         if (writeFile(outPath, fileData: fileData)) {
-            return "Finished: \(duplicateCount) / \(totalCount) Lines Removed \((duplicateCount*100)/totalCount)%"
+            return "Finished: \(duplicateCount) / \(totalCount) Lines Removed"
         } else {
             return "Processing failed"
         }
@@ -309,160 +317,3 @@ extension NSOutputStream {
 
 
 
-
-
-
-
-
-/*
-
-
-
-
-
-
-
-
-int main(int argc, const char * argv[]) {
-
-    if (argc < 2 || argc > 3) {
-
-        cout << "usage: gcodefix [input filename] [output filename]\n";
-        
-        return 0;
-        
-    }
-    
-    
-    
-    string filename = argv[1];
-    
-    
-    
-    cout << "Parsing " << filename.c_str() << ":" << endl;
-    
-    
-    
-    // output file
-    
-    bool output = false;
-    
-    ofstream outstream;
-    
-    
-    
-    if (argc == 3) {
-        
-        output = true;
-        
-        string outfile = argv[2];
-        
-        outstream.open(outfile);
-        
-        if (!outstream.is_open()) {
-            
-            cout << "unable to open output file " << outfile.c_str() << "\n";
-            
-            return 0;
-            
-        }
-        
-    }
-    
-    
-    
-    
-    
-    // read file
-    
-    int totalCount = 0;
-    
-    int duplicateCount = 0;
-    
-    
-    
-    bool relativeMotion = false;
-    
-    string line;
-    
-    string previousLine = "";
-    
-    ifstream infile(filename);
-    
-    if (infile.is_open()) {
-        
-        while (getline (infile,line)) {
-            
-            totalCount++;
-            
-            
-            
-            // don't filter relative motion gcode
-            
-            if (startsWith(line,"G91")) {
-                
-                relativeMotion = true;
-                
-            } else if (startsWith(line,"G90")) {
-                
-                relativeMotion = false;
-                
-            }
-            
-            
-            
-            // ignore redundant gcode
-            
-            if (!relativeMotion && startsWith(line, "G1") && isRedundant(previousLine, line)) {
-                
-                duplicateCount++;
-                
-                //                cout << totalCount << ": " << line << endl;
-                
-                continue;
-                
-            }
-            
-            
-            
-            if (output) {
-                
-                outstream << line << endl;
-                
-            }
-            
-            
-            
-            previousLine = line;
-            
-        }
-        
-        
-        
-        infile.close();
-        
-        if (output) {
-            
-            outstream.close();
-            
-        }
-        
-        
-        
-        printf("Finished: %d / %d Lines Removed [%f%%]\n", duplicateCount, totalCount, (duplicateCount * 100.0f)/totalCount);
-        
-        
-        
-    } else {
-        
-        cout << "Unable to open input file " << filename.c_str() << endl;
-        
-    }
-    
-    
-    
-    return 0;
-    
-}
-
-*/

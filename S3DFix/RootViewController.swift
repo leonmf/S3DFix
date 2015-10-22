@@ -12,6 +12,8 @@ import Cocoa
 class RootViewController: NSViewController {
 
     @IBOutlet weak var labelStatus: NSTextField!
+    @IBOutlet weak var txtXYRes: NSTextField!
+    @IBOutlet weak var txtERes: NSTextField!
     
     let S3DParse = ProcessFileModel(resolutionThreshold: 0.01, extrusionThreshold: 0.001)
     
@@ -23,15 +25,19 @@ class RootViewController: NSViewController {
     
     @IBAction func processFile(sender: AnyObject) {
         
+        let startTime = CFAbsoluteTimeGetCurrent()
         let fileName = openFile()
         
         if fileName != nil {
             labelStatus.stringValue = "Processing \(fileName!)"
             
+            S3DParse.resolutionThreshold = txtXYRes.floatValue
+            S3DParse.extrusionThreshold = txtERes.floatValue
             
             let result = S3DParse.Process(fileName!)
-            //let result = fix.Process(fileName!)
-            labelStatus.stringValue = result
+            let endTime = CFAbsoluteTimeGetCurrent()
+            let runTime:Float = Float(endTime - startTime)
+            labelStatus.stringValue = result + " in \(runTime.string(1)) seconds"
         } else {
             labelStatus.stringValue = "Please select a valid file to process"
         }
@@ -39,7 +45,9 @@ class RootViewController: NSViewController {
     
     
     override func awakeFromNib() {
-        //labelStatus.stringValue = "Test"
+        txtXYRes.floatValue = 0.01
+        txtERes.floatValue = 0.001
+        
     }
     
     func openFile() -> String? {
@@ -56,3 +64,15 @@ class RootViewController: NSViewController {
         
     }
 }
+
+//Format float values into strings
+//http://stackoverflow.com/questions/24051314/precision-string-format-specifier-in-swift
+extension Float {
+    func string(fractionDigits:Int) -> String {
+        let formatter = NSNumberFormatter()
+        formatter.minimumFractionDigits = fractionDigits
+        formatter.maximumFractionDigits = fractionDigits
+        return formatter.stringFromNumber(self) ?? "\(self)"
+    }
+}
+
