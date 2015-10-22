@@ -46,13 +46,10 @@ class ProcessFileModel {
     func startsWith(s:String, prefix:String) -> Bool {
         var result:Bool = false
         
-        //if s.characters.count >= prefix.characters.count {
-        //    let strSub = s.substringWithRange(s.startIndex.advancedBy(0)...s.startIndex.advancedBy(prefix.characters.count-1))
-        //    result = (strSub == prefix)
-        //}
-        
-        result = (s.characters.count >= prefix.characters.count && s.hasPrefix(prefix))
+        //Getting rid of this unnecessary character count check reduces the run time to 60%!
+        //result = (s.characters.count >= prefix.characters.count && s.hasPrefix(prefix))
 
+        result = s.hasPrefix(prefix)
         return result
     
     }
