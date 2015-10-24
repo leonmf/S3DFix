@@ -14,6 +14,8 @@ class RootViewController: NSViewController {
     @IBOutlet weak var labelStatus: NSTextField!
     @IBOutlet weak var txtXYRes: NSTextField!
     @IBOutlet weak var txtERes: NSTextField!
+
+
     
     var startTime = CFAbsoluteTimeGetCurrent()
     
@@ -44,7 +46,7 @@ class RootViewController: NSViewController {
                 
                 self.S3DParse.resolutionThreshold = self.txtXYRes.floatValue
                 self.S3DParse.extrusionThreshold = self.txtERes.floatValue
-                //let result = self.S3DParse.Process(fileName!)
+
                 let retVal = self.S3DParse.Process(fileName!)
                 
                 //Return data to the UI thread

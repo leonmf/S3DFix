@@ -30,6 +30,8 @@ class ProcessFileModel {
             extrusionThreshold = newValue
         }
     }
+    
+
 
     init() {
         self.resolutionThreshold = 0.01
@@ -54,6 +56,7 @@ class ProcessFileModel {
     
     }
 
+    /*
     func find_first_not_of(var i:Int, searchString:String, keyString:String) -> Int {
         //Create an array of charactes in the string to search
         let chars = searchString.characters.map{ String($0) }
@@ -69,6 +72,8 @@ class ProcessFileModel {
         }
         return i
     }
+*/
+    /*
     
     func getEndIdx(i:Int, searchString:String) -> Int {
         
@@ -84,6 +89,53 @@ class ProcessFileModel {
         }
         
     }
+*/
+    
+    func findIndexArr(sArr:[UInt8],searchByte:UInt8, startIdx:Int) -> Int {
+        
+        var idx = -1
+        var i = startIdx
+        repeat {
+            if (sArr[i] == searchByte) {
+                idx = i
+                return idx
+            }
+            i++
+            //print(i)
+            
+        } while (i<sArr.count)
+        return idx
+    }
+    
+    func getParameterArr(s:String,searchChars:String, startSearchIdx:Int) -> (found:Bool,result:Float)
+    {
+        var sArr = [UInt8]()
+        var searchArr = [UInt8]()
+        //print(s)
+        sArr += s.utf8
+        searchArr += searchChars.utf8
+        
+        let foundStartIdx = findIndexArr(sArr, searchByte: searchArr[0], startIdx: startSearchIdx)
+        if foundStartIdx<0 { return (false, 0) }
+        
+        var endIdx = findIndexArr(sArr,searchByte: searchArr[1], startIdx: foundStartIdx)
+        if endIdx<0 {
+            endIdx = sArr.count
+        }
+        
+        let parArray = Array(sArr[foundStartIdx+1..<endIdx])
+        
+        if let a = String(bytes: parArray, encoding: NSUTF8StringEncoding) {
+            if let val = Float(a) {
+                return (true, val)
+            }
+        }
+        
+        return (false, 0)
+        
+    }
+    
+/*
     
     func getParameter(s:String,c:Character) -> (found:Bool, result:Float) {
         //Get the index of the desired search character
@@ -106,9 +158,10 @@ class ProcessFileModel {
             //let endIndex = find_first_not_of(index, searchString: s, keyString: "01234567890.")
             let strValue = s.substringWithRange(s.startIndex.advancedBy(index)..<s.startIndex.advancedBy((endIndex)))
             
-            if (Float(strValue) != nil) {
-                let val = Float(strValue)!
-                return (true , val)
+            let val = Float(strValue)
+            
+            if val != nil {
+                return (true , val!)
             } else {
                 return (false, 0)
             }
@@ -118,19 +171,20 @@ class ProcessFileModel {
         }
         
     }
+*/
     
     func xyDistance(a:String, b:String) -> Float {
         
-        let aX = getParameter(a, c: "X")
+        let aX = getParameterArr(a, searchChars:"X ", startSearchIdx: 0)
         if (!aX.found) {return -1}
         
-        let aY = getParameter(a, c: "Y")
+        let aY = getParameterArr(a, searchChars:"Y ", startSearchIdx: 0)
         if (!aX.found) {return -1}
         
-        let bX = getParameter(b, c: "X")
+        let bX = getParameterArr(b, searchChars:"X ", startSearchIdx: 0)
         if (!aX.found) {return -1}
         
-        let bY = getParameter(b, c: "Y")
+        let bY = getParameterArr(b, searchChars:"Y ", startSearchIdx: 0)
         if (!aX.found) {return -1}
         
         let dX = bX.result - aX.result
@@ -148,11 +202,13 @@ class ProcessFileModel {
         }
         
         //Get the extrusion parameter for line 1
-        let aE = getParameter(a, c:"E");
+        //let aE = getParameter(a, c:"E");
+        let aE = getParameterArr(a, searchChars:"E ", startSearchIdx: 0)
         //Determine if extrusion is part of the line
         if (!aE.found) {return false}
         //Get the extrusion parameter for line 2
-        let bE = getParameter(b, c:"E");
+        //let bE = getParameter(b, c:"E");
+        let bE = getParameterArr(b, searchChars:"E ", startSearchIdx: 0)
         //Determine if extrusion is part of the line.
         if (!bE.found) {return false}
         
@@ -160,7 +216,7 @@ class ProcessFileModel {
         
         if (fabsf(aE.result - bE.result) < extrusionThreshold) {
             
-            // this distance check is probably unnecessary as travel moves are automatically filtered out (they don't have an E parameter)
+            // this distance check is probably unnecessary as travel moves are automatically filtered out (they don't have an E parameter)            
             let dist = xyDistance(a,b: b)
             
             if (dist < 0) {return false} // no distance data
@@ -173,11 +229,14 @@ class ProcessFileModel {
         return false
         
     }
+    
+
 
     func Process(path : String) -> String {
         
         var parsedPath = splitPath(path)
         var outPath = parsedPath.p + parsedPath.n + "-parsed.gcode"
+
         var iFile = 0
         var fileData = ""
         var totalCount = 0
@@ -185,6 +244,8 @@ class ProcessFileModel {
         var output = false
         var relativeMotion = false
         var previousLine = ""
+        var outURL: NSURL
+        
         
         //Don't allow overwrite of duplicate file
         while NSFileManager.defaultManager().fileExistsAtPath(outPath)
@@ -192,6 +253,15 @@ class ProcessFileModel {
             iFile++
             outPath = parsedPath.p + parsedPath.n + "-parsed-\(iFile).gcode"
         }
+        
+        if let ou = NSURL(string: outPath)
+        {
+            outURL = ou
+        }
+        else {
+            return "Unable to parse file name"
+        }
+        
         
         //Open and read file
         if let aStreamReader = StreamReader(path: path) {
@@ -214,12 +284,16 @@ class ProcessFileModel {
 
                 
                 // ignore redundant gcode
+                //if (!relativeMotion && startsWith(line, prefix:"G1") && isRedundant2(previousLine, b:line)) {
                 if (!relativeMotion && startsWith(line, prefix:"G1") && isRedundant(previousLine, b:line)) {
                     //record this as a duplicate line that was filtered out.
                     duplicateCount++;
                 } else {
                     //Add line to the data to write.
+                    //I expected this to kill performance but commenting this line out doesn't actually
+                    //improve performance significantly for even relatively large files.
                     fileData += line + "\n"
+
                     //Since this line was unique, make it the last valid line.
                     previousLine = line
                 }
@@ -274,8 +348,32 @@ class ProcessFileModel {
 
 
 
+/*
+extension String {
+    func appendLineToURL(fileURL: NSURL) throws {
+        try self.stringByAppendingString("\n").appendToURL(fileURL)
+    }
+    
+    func appendToURL(fileURL: NSURL) throws {
+        let data = self.dataUsingEncoding(NSUTF8StringEncoding)!
+        try data.appendToURL(fileURL)
+    }
+}
 
-
+extension NSData {
+    func appendToURL(fileURL: NSURL) throws {
+        if let fileHandle = try? NSFileHandle(forWritingToURL: fileURL) {
+            defer {
+                fileHandle.closeFile()
+            }
+            fileHandle.seekToEndOfFile()
+            fileHandle.writeData(self)
+        }
+        else {
+            try writeToURL(fileURL, options: .DataWritingAtomic)
+        }
+    }
+}
 
 
 
@@ -314,7 +412,7 @@ extension NSOutputStream {
     }
     
 }
-
+*/
 
 
 
